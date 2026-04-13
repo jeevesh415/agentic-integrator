@@ -1,206 +1,198 @@
-# 🧠 Agentic Integrator
+# Agentic Integrator
 
-### Agent-S3 + World Model: Human-Like Autonomous Screen Navigation
+**Agent-S3 + World Model + Advanced Memory + Continuous Vision for Human-Like Screen Navigation**
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
+> AI that operates computers like humans do — seeing continuously, navigating visually by appearance, learning and remembering through hierarchical, holographic, and hyper-dimensional memory systems.
 
-> An advanced framework that integrates [Agent-S3](https://github.com/simular-ai/Agent-S) (SOTA autonomous GUI agent) with a **World Model** layer for human-like screen navigation — the agent *imagines* outcomes before acting, just like humans do.
-
-## 🏗️ Architecture
+## Architecture
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│                   Agentic Integrator                        │
-│                                                             │
-│  ┌───────────────────────────────────────────────────────┐ │
-│  │ WorldModelPlanner                                      │ │
-│  │  • Generates N candidate actions per step              │ │
-│  │  • Simulates each via LLM world model                  │ │
-│  │  • Scores & ranks by task progress + safety            │ │
-│  │  • Tracks prediction accuracy over time                │ │
-│  └────────────────────┬──────────────────────────────────┘ │
-│                       │                                     │
-│  ┌────────────────────▼──────────────────────────────────┐ │
-│  │ Enhanced Worker (extends Agent-S3 Worker)              │ │
-│  │  • Multi-candidate action generation                   │ │
-│  │  • World-model-guided action selection                 │ │
-│  │  • Prediction vs reality verification                  │ │
-│  │  • Adaptive confidence calibration                     │ │
-│  └────────────────────┬──────────────────────────────────┘ │
-│                       │                                     │
-│  ┌────────────────────▼──────────────────────────────────┐ │
-│  │ Agent-S3 Core                                          │ │
-│  │  • ACI Grounding (UI-TARS / Tesseract OCR)            │ │
-│  │  • Code Agent (Python/Bash execution)                  │ │
-│  │  • Reflection Engine                                   │ │
-│  │  • Behavior Best-of-N (bBoN)                          │ │
-│  └───────────────────────────────────────────────────────┘ │
-└────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                     AgenticIntegrator                           │
+│                                                                 │
+│  ┌──────────────┐   ┌──────────────────┐   ┌────────────────┐ │
+│  │ Continuous    │──▶│ Enhanced Worker   │──▶│ World Model    │ │
+│  │ Vision       │   │ (Agent-S3+)       │   │ Planner        │ │
+│  │ Pipeline     │   │                   │   │                │ │
+│  │ • Video      │   │ • Multi-candidate │   │ • LLM-based    │ │
+│  │ • Change Det │   │ • Visual anchors  │   │ • Safety Gate  │ │
+│  │ • Attention  │   │ • Appearance nav  │   │ • Adaptive     │ │
+│  └──────┬───────┘   └────────┬──────────┘   └───────┬────────┘ │
+│         │                    │                       │          │
+│         ▼                    ▼                       ▼          │
+│  ┌─────────────────────────────────────────────────────────────┐│
+│  │              Unified Memory Controller                      ││
+│  │                                                             ││
+│  │  ┌─────────────┐  ┌──────────────┐  ┌───────────────────┐ ││
+│  │  │ Hierarchical │  │ Holographic  │  │ Hyper-Dimensional │ ││
+│  │  │ Memory       │  │ Memory (HRR) │  │ Memory (HDC)      │ ││
+│  │  │              │  │              │  │                   │ ││
+│  │  │ L1: Episodic │  │ Circular     │  │ 10,000D bipolar   │ ││
+│  │  │ L2: Semantic │  │ convolution  │  │ vectors           │ ││
+│  │  │ L3: Procedurl│  │ Content-addr │  │ One-shot learning │ ││
+│  │  └─────────────┘  └──────────────┘  └───────────────────┘ ││
+│  └─────────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-## ✨ Key Features
+## Key Innovations
 
-- **World Model Planning** — Before each GUI action, the agent simulates multiple possible outcomes and picks the best path
-- **Prediction Verification** — After each action, compares predicted vs actual screen state to improve future decisions
-- **Adaptive Confidence** — Tracks prediction accuracy; skips simulation for high-confidence simple actions
-- **Safety Gate** — Flags irreversible actions (delete, submit, purchase) for extra simulation scrutiny
-- **Seamless Agent-S3 Integration** — Drop-in enhancement that preserves all Agent-S3 capabilities (bBoN, code agent, reflection)
-- **Multi-Strategy World Models** — Supports LLM-based (WebDreamer-style), diffusion-based (DIAMOND-style), and hybrid approaches
+### 🧠 Three Memory Systems (Not Just One)
 
-## 📦 Installation
+| Memory | Inspired By | Encodes | Retrieves By |
+|--------|-------------|---------|--------------|
+| **Hierarchical** | Tulving's taxonomy / ACT-R | Raw experiences → abstract patterns → learned skills | Temporal/causal reasoning |
+| **Holographic** | Plate (1995) HRR | Structured role-filler bindings via circular convolution | Partial cue (content-addressable) |
+| **Hyper-Dimensional** | Kanerva (2009) HDC | Visual scenes as 10,000D bipolar vectors | One-shot pattern matching |
 
-```bash
-# Clone the repository
-git clone https://github.com/jeevesh415/agentic-integrator.git
-cd agentic-integrator
+### 👁️ Continuous Vision (Not Screenshots)
 
-# Install dependencies
-pip install -e .
+The agent sees a **continuous video stream**, not static screenshots:
+- **VisualChangeDetector** — detects meaningful state changes (ignores noise)
+- **TemporalAttention** — focuses on regions with recent activity (like human gaze)
+- **KeyframeExtraction** — captures significant moments automatically
+- Waits for stability after actions (handles animations, loading states)
 
-# Install Agent-S3 (required)
-pip install gui-agents
+### 🎯 Navigate by Appearance (Not Coordinates)
 
-# Install tesseract (required by Agent-S3)
-# macOS: brew install tesseract
-# Ubuntu: sudo apt install tesseract-ocr
-# Windows: choco install tesseract
+Instead of "click at pixel (523, 417)", the agent thinks **"click the blue Submit button"**:
+- **ColorMatcher** — find elements by color ("the red Delete button")
+- **VisualAnchors** — remember elements by how they look, track across layout changes
+- **VisualFeatureExtractor** — shape, size, position, color, edge density
+- **AppearanceBasedGrounding** — locate elements by visual description
+
+### 🌍 World Model Planning
+
+Before every action, the agent **imagines what will happen**:
+- Generates 3+ candidate actions per step
+- Simulates each via LLM world model (WebDreamer-style)
+- Safety Gate blocks dangerous/irreversible actions
+- Adaptive confidence skips simulation for simple actions
+
+## Module Map
+
+```
+agentic_integrator/
+├── integrator.py              # Main orchestrator
+├── cli.py                     # Command-line interface
+│
+├── memory/                    # 🧠 Advanced Memory Systems
+│   ├── hierarchical_memory.py  # L1 Episodic → L2 Semantic → L3 Procedural
+│   ├── holographic_memory.py   # HRR: circular convolution, content-addressable
+│   ├── hyperdimensional_memory.py  # HDC: 10,000D bipolar vectors, one-shot learning
+│   ├── unified_controller.py   # Orchestrates all three memory systems
+│   └── prediction_memory.py    # Tracks world model accuracy
+│
+├── vision/                    # 👁️ Continuous Vision
+│   ├── __init__.py             # ContinuousVisionPipeline, ChangeDetector, Attention
+│   └── visual_grounding.py     # ColorMatcher, VisualAnchors, AppearanceGrounding
+│
+├── world_model/               # 🌍 World Model
+│   ├── base.py                 # SimulationResult, PlanningResult
+│   ├── llm_world_model.py      # LLM-based simulation
+│   ├── planner.py              # Multi-candidate planning
+│   └── safety_gate.py          # Dangerous action detection
+│
+├── enhanced_worker/           # ⚡ Enhanced Agent-S3 Worker
+│   ├── worker.py               # EnhancedWorker with planning
+│   └── verification.py         # Prediction vs reality comparison
+│
+└── utils/
+    └── prompts.py              # LLM prompts
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ```python
 from agentic_integrator import AgenticIntegrator
 
-# Initialize with world model enabled
 agent = AgenticIntegrator(
     provider="openai",
     model="gpt-4o",
     ground_provider="huggingface",
     ground_url="http://localhost:8080",
     ground_model="ui-tars-1.5-7b",
-    world_model_candidates=3,     # simulate 3 candidates per step
-    safety_gate_enabled=True,      # extra checks for dangerous actions
-    adaptive_confidence=True,      # skip simulation for simple actions
+    world_model_candidates=3,
+    safety_gate_enabled=True,
+    adaptive_confidence=True,
 )
 
-# Run a task
-agent.run("Open Chrome and search for 'world models for AI agents'")
+# The agent sees a continuous video stream
+# and navigates by visual appearance, not coordinates
+info, actions = agent.predict("Open Chrome and search for AI papers", observation)
 ```
 
-### CLI Usage
+### Using the Memory Systems Directly
+
+```python
+from agentic_integrator.memory import UnifiedMemoryController
+import numpy as np
+
+memory = UnifiedMemoryController()
+
+# Store a full experience (writes to all 3 systems simultaneously)
+ids = memory.store_experience(
+    visual_embedding=np.random.randn(512),
+    action="click_submit_button",
+    outcome="form_submitted_successfully",
+    task="checkout_flow",
+    app="chrome",
+    reward=0.9,
+    ui_elements=[{"type": "button", "color": "blue", "label": "Submit"}],
+    role_fillers={"action": "click", "target": "submit", "page": "checkout"},
+)
+
+# Recall by situation (queries all systems in parallel)
+memories = memory.recall_by_situation(
+    visual_embedding=current_embedding,
+    task="checkout_flow",
+    query_features={"color": "blue", "type": "button"},
+)
+```
+
+### Using Visual Grounding
+
+```python
+from agentic_integrator.vision.visual_grounding import AppearanceBasedGrounding
+
+grounding = AppearanceBasedGrounding()
+
+# Create a visual anchor for a UI element
+anchor = grounding.create_anchor("submit_btn", screenshot, bbox=(500, 400, 120, 40), text_content="Submit")
+
+# Later, find it by appearance (not coordinates!)
+element = grounding.find_element(
+    {"anchor_name": "submit_btn"},   # by known anchor
+    current_screenshot,
+)
+# OR
+element = grounding.find_element(
+    {"color": "blue", "shape": "rectangle", "text": "Submit"},  # by description
+    current_screenshot,
+    candidate_bboxes=detected_bboxes,
+)
+```
+
+## Installation
 
 ```bash
-# Run with world model (default: 3 candidates)
-agentic-integrator \
-    --provider openai \
-    --model gpt-4o \
-    --ground_provider huggingface \
-    --ground_url http://localhost:8080 \
-    --ground_model ui-tars-1.5-7b \
-    --world_model_candidates 3
-
-# Run with safety gate for sensitive tasks
-agentic-integrator \
-    --provider openai \
-    --model gpt-4o \
-    --ground_provider huggingface \
-    --ground_url http://localhost:8080 \
-    --ground_model ui-tars-1.5-7b \
-    --safety_gate \
-    --task "Fill out the payment form and submit"
+git clone https://github.com/jeevesh415/agentic-integrator.git
+cd agentic-integrator
+pip install -e .
 ```
 
-## 📁 Project Structure
+## Requirements
 
-```
-agentic-integrator/
-├── README.md
-├── setup.py
-├── requirements.txt
-├── agentic_integrator/
-│   ├── __init__.py
-│   ├── integrator.py          # Main AgenticIntegrator class
-│   ├── cli.py                 # CLI entry point
-│   ├── world_model/
-│   │   ├── __init__.py
-│   │   ├── base.py            # Abstract WorldModel interface
-│   │   ├── llm_world_model.py # LLM-based world model (WebDreamer-style)
-│   │   ├── planner.py         # WorldModelPlanner — candidate generation + ranking
-│   │   └── safety_gate.py     # Safety analysis for irreversible actions
-│   ├── enhanced_worker/
-│   │   ├── __init__.py
-│   │   ├── worker.py          # Enhanced Worker with world model integration
-│   │   └── verification.py    # Prediction vs reality verification
-│   ├── memory/
-│   │   ├── __init__.py
-│   │   └── prediction_memory.py # Tracks prediction accuracy over time
-│   └── utils/
-│       ├── __init__.py
-│       └── prompts.py         # All LLM prompts
-├── tests/
-│   ├── __init__.py
-│   ├── test_world_model.py
-│   ├── test_planner.py
-│   └── test_safety_gate.py
-├── examples/
-│   ├── basic_usage.py
-│   ├── safety_gate_demo.py
-│   └── custom_world_model.py
-└── docs/
-    ├── architecture.md
-    ├── world_model_theory.md
-    └── agent_s3_reference.md
-```
+- Python 3.9+
+- numpy (core — all memory/vision systems)
+- Pillow (vision pipeline)
+- openai or anthropic (world model LLM calls)
+- gui-agents (Agent-S3 — only needed for full integration, not standalone modules)
 
-## 🔬 How It Works
+## References
 
-### 1. World Model Simulation Loop
-
-```
-For each step in the task:
-  1. Observe current screenshot
-  2. Generate N candidate actions
-  3. For each candidate:
-     a. World model predicts outcome (text description + score)
-     b. Safety gate checks for irreversible actions
-  4. Rank candidates by: task_progress × safety × confidence
-  5. Execute top-ranked action
-  6. Compare actual result vs prediction
-  7. Update prediction memory (improves future accuracy)
-```
-
-### 2. Adaptive Confidence
-
-The system learns which types of actions it predicts well:
-- **High confidence** (>0.8): Skip simulation, act directly (e.g., clicking a clearly labeled button)
-- **Medium confidence** (0.5-0.8): Simulate top 2 candidates
-- **Low confidence** (<0.5): Full simulation of all N candidates
-
-### 3. Safety Gate
-
-Detects and handles dangerous actions:
-- **File operations**: delete, overwrite, format
-- **Web forms**: submit, purchase, send payment
-- **System**: shutdown, install, uninstall
-- **Data**: drop table, clear all, reset
-
-## 📊 Expected Performance
-
-| Metric | Agent-S3 Alone | + World Model |
-|--------|---------------|---------------|
-| OSWorld Accuracy | 66.0% | ~70%+ (estimated) |
-| Irreversible Error Rate | Baseline | -60% (safety gate) |
-| Avg Steps to Complete | Baseline | -15% (better planning) |
-| LLM Calls per Step | 1-2 | 4-6 (simulation cost) |
-
-## 🤝 Credits
-
-- [Agent-S](https://github.com/simular-ai/Agent-S) by Simular AI — SOTA GUI agent framework
-- [WebDreamer](https://github.com/OSU-NLP-Group/WebDreamer) by OSU NLP — LLM as world model concept
-- [DIAMOND](https://github.com/eloialonso/diamond) — Diffusion world model approach
-- [AdaWorld](https://github.com/Little-Podi/AdaWorld) — Latent action world models
-
-## 📄 License
-
-Apache 2.0
+- **Agent-S3**: [simular-ai/Agent-S](https://github.com/simular-ai/Agent-S) — Autonomous GUI agent, first to surpass human on OSWorld
+- **WebDreamer**: "Is Your LLM Secretly a World Model of the Internet?" (2024) — LLMs as implicit world models
+- **Holographic Reduced Representations**: Plate (1995) — Distributed associative memory via circular convolution
+- **Hyper-Dimensional Computing**: Kanerva (2009) — Computing with 10,000D vectors
+- **ACT-R**: Anderson (2007) — Cognitive architecture with hierarchical memory
