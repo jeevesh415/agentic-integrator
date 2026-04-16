@@ -394,3 +394,58 @@ class ContinuousVisionPipeline:
             "is_stable": self.change_detector.is_stable,
             "is_transitioning": self.change_detector.is_transitioning,
         }
+
+
+# ─── Re-export all vision modules ────────────────────────────────────────────
+def __getattr__(name):
+    if name in ("VisualGrounding", "AppearanceBasedGrounding", "ColorMatcher", "VisualAnchor", "VisualAnchorManager", "VisualRegion"):
+        from agentic_integrator.vision import visual_grounding as _vg
+        # Canonical aliases
+        _map = {
+            "VisualGrounding": "AppearanceBasedGrounding",
+        }
+        real = _map.get(name, name)
+        return getattr(_vg, real)
+    if name in ("ContrastiveLearner", "ContrastiveVisualLearner", "UIAugmentations", "ContrastivePair", "NTXentLoss"):
+        from agentic_integrator.vision import contrastive_learning as _cl
+        _map = {
+            "ContrastiveLearner": "ContrastiveVisualLearner",
+        }
+        real = _map.get(name, name)
+        return getattr(_cl, real)
+    if name in ("UIGraphBuilder", "UIGraph", "UINode", "UIEdge", "UIGraphResult", "SpatialRelationDetector", "AttentionMessagePassing"):
+        from agentic_integrator.vision import ui_graph as _ug
+        _map = {
+            "UIGraphBuilder": "UIGraph",
+        }
+        real = _map.get(name, name)
+        return getattr(_ug, real)
+    raise AttributeError(f"module 'agentic_integrator.vision' has no attribute {name!r}")
+
+
+__all__ = [
+    # Continuous vision (defined inline above)
+    "ContinuousVisionPipeline",
+    "VisualChangeDetector",
+    "TemporalAttention",
+    "VisualStateTracker",
+    "FrameBuffer",
+    # Visual grounding (aliases + real names)
+    "VisualGrounding",              # alias → AppearanceBasedGrounding
+    "AppearanceBasedGrounding",
+    "ColorMatcher",
+    "VisualAnchor",
+    "VisualRegion",
+    # Contrastive learning (aliases + real names)
+    "ContrastiveLearner",           # alias → ContrastiveVisualLearner
+    "ContrastiveVisualLearner",
+    "UIAugmentations",
+    "NTXentLoss",
+    # UI graph (aliases + real names)
+    "UIGraphBuilder",               # alias → UIGraph
+    "UIGraph",
+    "UINode",
+    "UIEdge",
+    "SpatialRelationDetector",
+    "AttentionMessagePassing",
+]

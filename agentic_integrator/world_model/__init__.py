@@ -11,10 +11,14 @@ def __getattr__(name):
     if name == "LLMWorldModel":
         from agentic_integrator.world_model.llm_world_model import LLMWorldModel
         return LLMWorldModel
-    if name == "WorldModelPlanner":
+    if name in ("WorldModelPlanner", "Planner"):
         from agentic_integrator.world_model.planner import WorldModelPlanner
         return WorldModelPlanner
     raise AttributeError(f"module has no attribute {name!r}")
 
 
-__all__ = ["WorldModel", "SimulationResult", "PlanningResult", "SafetyGate", "SafetyCheckResult", "LLMWorldModel", "WorldModelPlanner"]
+__all__ = [
+    "WorldModel", "SimulationResult", "PlanningResult",
+    "SafetyGate", "SafetyCheckResult",
+    "LLMWorldModel", "WorldModelPlanner", "Planner",
+]

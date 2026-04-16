@@ -1,4 +1,8 @@
-"""Enhanced Worker — extends Agent-S3 Worker with world model planning."""
+"""Enhanced Worker — extends Agent-S3 Worker with world model planning.
+
+Requires gui_agents (Agent-S3) to be installed for live screen execution.
+All other components (memory, vision, world model) work without it.
+"""
 
 from __future__ import annotations
 
@@ -6,10 +10,18 @@ import logging
 import textwrap
 from typing import Any, Dict, List, Optional, Tuple
 
-from gui_agents.s3.agents.grounding import ACI
-from gui_agents.s3.agents.worker import Worker
-from gui_agents.s3.memory.procedural_memory import PROCEDURAL_MEMORY
-from gui_agents.s3.utils.common_utils import call_llm_safe, parse_code_from_string
+try:
+    from gui_agents.s3.agents.grounding import ACI
+    from gui_agents.s3.agents.worker import Worker
+    from gui_agents.s3.memory.procedural_memory import PROCEDURAL_MEMORY
+    from gui_agents.s3.utils.common_utils import call_llm_safe, parse_code_from_string
+    _AGENT_S3_AVAILABLE = True
+except ImportError:
+    _AGENT_S3_AVAILABLE = False
+    ACI = None  # type: ignore
+    Worker = object  # type: ignore — fallback base class
+    call_llm_safe = None
+    parse_code_from_string = None
 
 from agentic_integrator.world_model.planner import WorldModelPlanner
 from agentic_integrator.enhanced_worker.verification import PredictionVerifier

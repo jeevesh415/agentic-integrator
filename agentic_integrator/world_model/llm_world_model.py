@@ -73,29 +73,29 @@ class LLMWorldModel(WorldModel):
         self._init_client()
 
     def _init_client(self):
-        """Initialize the LLM client based on engine params."""
+        """Initialize the LLM client based on engine params (lazy — fails gracefully if SDK not installed)."""
         engine_type = self.engine_params.get("engine_type", "openai")
+        self.client = None  # will be set below; None = no LLM SDK available
 
-        if engine_type == "openai":
-            from openai import OpenAI
-
-            self.client = OpenAI(
-                api_key=self.engine_params.get("api_key"),
-                base_url=self.engine_params.get("base_url") or None,
-            )
-        elif engine_type == "anthropic":
-            from anthropic import Anthropic
-
-            self.client = Anthropic(
-                api_key=self.engine_params.get("api_key"),
-            )
-        else:
-            # Fallback to OpenAI-compatible
-            from openai import OpenAI
-
-            self.client = OpenAI(
-                api_key=self.engine_params.get("api_key"),
-                base_url=self.engine_params.get("base_url") or None,
+        try:
+            if engine_type == "anthropic":
+                from anthropic import Anthropic
+                self.client = Anthropic(
+                    api_key=self.engine_params.get("api_key"),
+                )
+            else:
+                # openai or openai-compatible
+                from openai import OpenAI
+                self.client = OpenAI(
+                    api_key=self.engine_params.get("api_key"),
+                    base_url=self.engine_params.get("base_url") or None,
+                )
+        except ImportError as e:
+            import logging
+            logging.getLogger("agentic_integrator.world_model").warning(
+                f"LLM client not available ({e}). "
+                "Install openai or anthropic to enable world model simulation. "
+                "Memory, vision, and safety components remain fully functional."
             )
 
         self.engine_type = engine_type
