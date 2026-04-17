@@ -400,26 +400,32 @@ class ContinuousVisionPipeline:
 def __getattr__(name):
     if name in ("VisualGrounding", "AppearanceBasedGrounding", "ColorMatcher", "VisualAnchor", "VisualAnchorManager", "VisualRegion"):
         from agentic_integrator.vision import visual_grounding as _vg
-        # Canonical aliases
-        _map = {
-            "VisualGrounding": "AppearanceBasedGrounding",
-        }
+        _map = {"VisualGrounding": "AppearanceBasedGrounding"}
         real = _map.get(name, name)
         return getattr(_vg, real)
     if name in ("ContrastiveLearner", "ContrastiveVisualLearner", "UIAugmentations", "ContrastivePair", "NTXentLoss"):
         from agentic_integrator.vision import contrastive_learning as _cl
-        _map = {
-            "ContrastiveLearner": "ContrastiveVisualLearner",
-        }
+        _map = {"ContrastiveLearner": "ContrastiveVisualLearner"}
         real = _map.get(name, name)
         return getattr(_cl, real)
     if name in ("UIGraphBuilder", "UIGraph", "UINode", "UIEdge", "UIGraphResult", "SpatialRelationDetector", "AttentionMessagePassing"):
         from agentic_integrator.vision import ui_graph as _ug
-        _map = {
-            "UIGraphBuilder": "UIGraph",
-        }
+        _map = {"UIGraphBuilder": "UIGraph"}
         real = _map.get(name, name)
         return getattr(_ug, real)
+    # Dense visual field (new — coordinate-free screen understanding)
+    if name in ("DenseVisualField", "DensePatchEncoder", "SaliencyFieldGenerator", "PatchGrid", "SaliencyField"):
+        from agentic_integrator.vision import dense_visual_field as _dvf
+        return getattr(_dvf, name)
+    # Optical flow tracker (new — temporal identity without re-detection)
+    if name in ("TemporalIdentityTracker", "LKFlowTracker", "DenseFlowEstimator",
+                "FlowField", "TrackedPoint"):
+        from agentic_integrator.vision import optical_flow_tracker as _oft
+        return getattr(_oft, name)
+    # Appearance navigator (new — coordinate-free navigation)
+    if name in ("AppearanceNavigator", "NavigationSignal", "VisualTarget"):
+        from agentic_integrator.vision import appearance_navigator as _an
+        return getattr(_an, name)
     raise AttributeError(f"module 'agentic_integrator.vision' has no attribute {name!r}")
 
 
@@ -430,22 +436,39 @@ __all__ = [
     "TemporalAttention",
     "VisualStateTracker",
     "FrameBuffer",
-    # Visual grounding (aliases + real names)
-    "VisualGrounding",              # alias → AppearanceBasedGrounding
+    # Visual grounding (legacy + aliases)
+    "VisualGrounding",
     "AppearanceBasedGrounding",
     "ColorMatcher",
     "VisualAnchor",
     "VisualRegion",
-    # Contrastive learning (aliases + real names)
-    "ContrastiveLearner",           # alias → ContrastiveVisualLearner
+    # Contrastive learning
+    "ContrastiveLearner",
     "ContrastiveVisualLearner",
     "UIAugmentations",
     "NTXentLoss",
-    # UI graph (aliases + real names)
-    "UIGraphBuilder",               # alias → UIGraph
+    # UI graph
+    "UIGraphBuilder",
     "UIGraph",
     "UINode",
     "UIEdge",
     "SpatialRelationDetector",
     "AttentionMessagePassing",
+    # ── NEW: Frontier vision layer ──────────────────────────────────────────
+    # Dense visual field — pixel-level screen understanding, no bounding boxes
+    "DenseVisualField",
+    "DensePatchEncoder",
+    "SaliencyFieldGenerator",
+    "PatchGrid",
+    "SaliencyField",
+    # Optical flow tracker — temporal identity across frames
+    "TemporalIdentityTracker",
+    "LKFlowTracker",
+    "DenseFlowEstimator",
+    "FlowField",
+    "TrackedPoint",
+    # Appearance navigator — coordinate-free navigation
+    "AppearanceNavigator",
+    "NavigationSignal",
+    "VisualTarget",
 ]

@@ -38,6 +38,11 @@ from agentic_integrator.memory.sparse_distributed_memory import SparseDistribute
 from agentic_integrator.memory.experience_replay import RewardWeightedReplay as ExperienceReplay
 from agentic_integrator.memory.prediction_memory import PredictionMemory
 
+# Vision — frontier layer
+from agentic_integrator.vision.dense_visual_field import DenseVisualField
+from agentic_integrator.vision.optical_flow_tracker import TemporalIdentityTracker
+from agentic_integrator.vision.appearance_navigator import AppearanceNavigator, VisualTarget
+
 logger = logging.getLogger("agentic_integrator")
 
 
@@ -70,6 +75,12 @@ class IntegratorConfig:
     embedding_dim: int = 128
     episodic_capacity: int = 10_000
     hdc_dim: int = 10_000
+
+    # Vision — frontier settings
+    dense_patch_size: int = 32
+    dense_embed_dim: int = 256
+    nav_smoothing_sigma: float = 4.0
+    flow_max_tracks: int = 150
 
     # Agent-S3 settings (only used when gui_agents is installed)
     max_trajectory_length: int = 8
@@ -118,6 +129,22 @@ class AgenticIntegrator:
         self.prediction_memory   = self.memory.prediction
         self.sdm                 = SparseDistributedMemory()
         self.experience_replay   = ExperienceReplay()
+
+        # ── Frontier Vision Layer ────────────────────────────────────────────
+        # Coordinate-free screen understanding — no bounding boxes
+        self.dense_field = DenseVisualField(
+            patch_size=config.dense_patch_size,
+            embed_dim=config.dense_embed_dim,
+        )
+        self.flow_tracker = TemporalIdentityTracker(
+            max_tracks=config.flow_max_tracks,
+        )
+        self.navigator = AppearanceNavigator(
+            patch_size=config.dense_patch_size,
+            embed_dim=config.dense_embed_dim,
+            max_tracks=config.flow_max_tracks,
+            smoothing_sigma=config.nav_smoothing_sigma,
+        )
 
         # ── World model ──────────────────────────────────────────────────────
         engine_params = self._build_engine_params()
@@ -222,5 +249,6 @@ class AgenticIntegrator:
             "prediction_memory": self.prediction_memory.get_stats(),
             "planner": self.planner.get_stats(),
             "safety_gate": self.safety_gate.get_stats(),
+            "navigator": self.navigator.get_stats(),
             "agent_s3_available": _AGENT_S3_AVAILABLE,
         }
